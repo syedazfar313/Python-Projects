@@ -1,0 +1,72 @@
+# Simple To-Do List Application
+
+def display_menu():
+    print("\nTo-Do List Menu:")
+    print("1. View To-Do List")
+    print("2. Add a Task")
+    print("3. Mark a Task as Completed")
+    print("4. Delete a Task")
+    print("5. Exit")
+
+def view_tasks(tasks):
+    if not tasks:
+        print("\nYour to-do list is empty.")
+    else:
+        print("\nTo-Do List:")
+        for idx, task in enumerate(tasks, start=1):
+            status = "Done" if task["completed"] else "Not Done"
+            print(f"{idx}. {task['title']} [{status}]")
+
+def add_task(tasks):
+    task_title = input("\nEnter the task you want to add: ")
+    tasks.append({"title": task_title, "completed": False})
+    print(f"Task '{task_title}' added to your to-do list.")
+
+def mark_task_completed(tasks):
+    view_tasks(tasks)
+    if tasks:
+        try:
+            task_num = int(input("\nEnter the number of the task you have completed: "))
+            if 1 <= task_num <= len(tasks):
+                tasks[task_num - 1]["completed"] = True
+                print(f"Task '{tasks[task_num - 1]['title']}' marked as completed.")
+            else:
+                print("Invalid task number.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+def delete_task(tasks):
+    view_tasks(tasks)
+    if tasks:
+        try:
+            task_num = int(input("\nEnter the number of the task you want to delete: "))
+            if 1 <= task_num <= len(tasks):
+                deleted_task = tasks.pop(task_num - 1)
+                print(f"Task '{deleted_task['title']}' deleted from your to-do list.")
+            else:
+                print("Invalid task number.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+def main():
+    tasks = []
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice (1-5): ")
+
+        if choice == "1":
+            view_tasks(tasks)
+        elif choice == "2":
+            add_task(tasks)
+        elif choice == "3":
+            mark_task_completed(tasks)
+        elif choice == "4":
+            delete_task(tasks)
+        elif choice == "5":
+            print("Exiting the To-Do List. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please select an option from 1 to 5.")
+
+if __name__ == "__main__":
+    main()
